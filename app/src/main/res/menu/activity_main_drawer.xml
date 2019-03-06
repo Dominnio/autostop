@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_profile"
+            android:icon="@drawable/menu_profile"
+            android:title="Mój profil" />
+        <item
+            android:id="@+id/nav_messages"
+            android:icon="@drawable/menu_messages"
+            android:title="Wiadomości" />
+        <item
+            android:id="@+id/nav_users"
+            android:icon="@drawable/menu_users"
+            android:title="Inni użytkownicy" />
+        <item
+            android:id="@+id/nav_add_ride"
+            android:icon="@drawable/menu_add_ride"
+            android:title="Doodaj potrzebę przejazdu" />
+    </group>
+
+    <item android:title="Communicate">
+        <menu>
+            <item
+                android:id="@+id/nav_find_place"
+                android:icon="@drawable/menu_find_place"
+                android:title="Szukaj miejsca" />
+            <item
+                android:id="@+id/nav_find_hitchihiker"
+                android:icon="@drawable/menu_find_hitchhiker"
+                android:title="Szukaj autostopowicza" />
+        </menu>
+    </item>
+
+</menu>

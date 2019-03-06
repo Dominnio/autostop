@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "673044224616",
+    "firebase_url": "https://stopauto-46d0d.firebaseio.com",
+    "project_id": "stopauto-46d0d",
+    "storage_bucket": "stopauto-46d0d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:673044224616:android:bc7e0bb8e6a103b5",
+        "android_client_info": {
+          "package_name": "com.example.stopauto"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "673044224616-qeckk3qup55vnugcn63clr3hpvmr1moa.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.stopauto",
+            "certificate_hash": "7b97ec0abb100e65b020786ed9710cb5792d03aa"
+          }
+        },
+        {
+          "client_id": "673044224616-6t7mbkgk7te39tt1q5adrio33e8g124o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDv01kVBgml0rVX4c94rl-WcXoBuGGDRgo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "673044224616-6t7mbkgk7te39tt1q5adrio33e8g124o.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
