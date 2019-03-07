@@ -56,17 +56,21 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+
+    }
 
     public void LoginUser(){
 
         String Email = email.getText().toString().trim();
         String Password = password.getText().toString().trim();
         if (TextUtils.isEmpty(Email)){
-            Toast.makeText(this, "A Field is Empty", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Some fileds are empty", Toast.LENGTH_SHORT).show();
             return;
         }
         if (TextUtils.isEmpty(Password)){
-            Toast.makeText(this, "A Field is Empty", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Some fileds are empty", Toast.LENGTH_SHORT).show();
             return;
         }
         mAuth.signInWithEmailAndPassword(Email, Password)
@@ -76,15 +80,14 @@ public class LoginActivity extends AppCompatActivity {
                         if (task.isSuccessful()){
                             currentUser = mAuth.getCurrentUser();
                             if(!currentUser.isEmailVerified()){
-                                Toast.makeText(LoginActivity.this, "Verify your email", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(LoginActivity.this, "Please, verify your email address.", Toast.LENGTH_SHORT).show();
                             }else {
                                 finish();
                                 startActivity(new Intent(getApplicationContext(),
                                         MainActivity.class));
                             }
                         }else {
-                            Toast.makeText(LoginActivity.this, "couldn't login",
-                                    Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, "Login failed.", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

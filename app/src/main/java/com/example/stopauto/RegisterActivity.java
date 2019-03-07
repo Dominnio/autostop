@@ -1,5 +1,9 @@
 package com.example.stopauto;
 
+import android.content.DialogInterface;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -69,6 +73,11 @@ public class RegisterActivity extends AppCompatActivity {
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference databaseRef = database.getReference();
+
+    @Override
+    public void onBackPressed() {
+
+    }
 
 
     @Override
@@ -143,19 +152,19 @@ public class RegisterActivity extends AppCompatActivity {
         String sDate = Day+"/"+ Month + "/" + Year;
 
         if (TextUtils.isEmpty(Email)){
-            Toast.makeText(this, "A Field is Empty", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Some fileds are empty", Toast.LENGTH_SHORT).show();
             return;
         }
         if (TextUtils.isEmpty(Password)){
-            Toast.makeText(this, "A Field is Empty", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Some fileds are empty", Toast.LENGTH_SHORT).show();
             return;
         }
         if (TextUtils.isEmpty(Fname)){
-            Toast.makeText(this, "A Field is Empty", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Some fileds are empty", Toast.LENGTH_SHORT).show();
             return;
         }
         if (TextUtils.isEmpty(Sname)){
-            Toast.makeText(this, "A Field is Empty", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Some fileds are empty", Toast.LENGTH_SHORT).show();
             return;
         }
         final User newUser = new User(Email,Fname,Sname,Sex,sDate);
@@ -167,23 +176,29 @@ public class RegisterActivity extends AppCompatActivity {
                         try {
                             //check if successful
                             if (task.isSuccessful()) {
-                                //start Profile Activity here
-                                Toast.makeText(RegisterActivity.this, "registration successful",
-                                        Toast.LENGTH_SHORT).show();
-
                                 currentUser = mAuth.getCurrentUser();
-
                                 currentUser.sendEmailVerification()
                                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {
                                                 if (task.isSuccessful()) {
                                                     FirebaseAuth.getInstance().signOut();
-
                                                     databaseRef.child("users").child(currentUser.getUid()).setValue(newUser);
+                                                    currentUser = null;
 
-                                                    startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
-                                                    finish();
+                                                    AlertDialog alertDialog= new AlertDialog.Builder(RegisterActivity.this).create();
+                                                    alertDialog.setTitle("Alert");
+                                                    alertDialog.setMessage("Verify your email address.");
+                                                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                                                            new DialogInterface.OnClickListener() {
+                                                                public void onClick(DialogInterface dialog, int which) {
+                                                                    dialog.dismiss();
+                                                                    Toast.makeText(RegisterActivity.this, "Registration succeeded.",
+                                                                            Toast.LENGTH_SHORT).show();
+                                                                    finish();
+                                                                }
+                                                            });
+                                                    alertDialog.show();
                                                 }
                                                 else
                                                 {
@@ -195,10 +210,8 @@ public class RegisterActivity extends AppCompatActivity {
                                             }
                                         });
 
-                                finish();
-                                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
                             }else{
-                                Toast.makeText(RegisterActivity.this, "Couldn't register, try again",
+                                Toast.makeText(RegisterActivity.this, "Register failed.",
                                         Toast.LENGTH_SHORT).show();
                             }
                         }catch (Exception e){
@@ -206,6 +219,7 @@ public class RegisterActivity extends AppCompatActivity {
                         }
                     }
                 });
+
     }
 
 }

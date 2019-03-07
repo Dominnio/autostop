@@ -9,10 +9,6 @@
             android:icon="@drawable/menu_profile"
             android:title="My profile" />
         <item
-            android:id="@+id/nav_messages"
-            android:icon="@drawable/menu_messages"
-            android:title="Messages" />
-        <item
             android:id="@+id/nav_users"
             android:icon="@drawable/menu_users"
             android:title="Other users" />

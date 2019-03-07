@@ -106,12 +106,11 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_profile) {
-            Intent myIntent = new Intent(this, MainActivity.class);
+            Intent myIntent = new Intent(this, ProfileActivity.class);
             this.startActivity(myIntent);
-        } else if (id == R.id.nav_messages) {
-
         } else if (id == R.id.nav_users) {
-
+            Intent myIntent = new Intent(this, UsersListActivity.class);
+            this.startActivity(myIntent);
         } else if (id == R.id.nav_add_ride) {
             Intent myIntent = new Intent(this, HitchhikeActivity.class);
             this.startActivity(myIntent);
