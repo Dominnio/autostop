@@ -71,5 +71,7 @@
         <item>11</item>
         <item>12</item>
     </string-array>
+    <string name="title_activity_find_hitchhiker">Map</string>
+    <string name="title_activity_find_place">Map</string>
 
 </resources>

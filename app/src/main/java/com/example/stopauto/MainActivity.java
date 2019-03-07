@@ -115,9 +115,11 @@ public class MainActivity extends AppCompatActivity
             Intent myIntent = new Intent(this, HitchhikeActivity.class);
             this.startActivity(myIntent);
         } else if (id == R.id.nav_find_place) {
-
+            Intent myIntent = new Intent(this, FindPlaceActivity.class);
+            this.startActivity(myIntent);
         } else if (id == R.id.nav_find_hitchihiker) {
-
+            Intent myIntent = new Intent(this, FindHitchhikerActivity.class);
+            this.startActivity(myIntent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

@@ -91,9 +91,11 @@ public class HitchhikeActivity extends AppCompatActivity  implements GoogleApiCl
         });
     }
 
+    private String Localization;
+    private String Description;
+
     public void AddRide(){
-        String Description = description.getText().toString().trim();
-        String Localization = new String();
+        Description = description.getText().toString().trim();
         if (TextUtils.isEmpty(Description)){
             Toast.makeText(this, "Description is Empty", Toast.LENGTH_SHORT).show();
             return;
@@ -113,23 +115,26 @@ public class HitchhikeActivity extends AppCompatActivity  implements GoogleApiCl
                 public void onComplete(@NonNull Task task) {
                     if(task.isSuccessful()){
                         currentLocation = (Location) task.getResult();
+                        Log.e(TAG,"getting location"+ task.getResult().toString());
+
+                        Localization = Location.convert(currentLocation.getLatitude(), Location.FORMAT_DEGREES) + " " + Location.convert(currentLocation.getLongitude(), Location.FORMAT_DEGREES);
+
+                        currentUser = mAuth.getCurrentUser();
+                        String hash = Integer.toString(Math.abs((Description + Localization + currentUser.getUid()).hashCode()));
+                        final Hitchhike newJourney = new Hitchhike(currentUser.getUid(),Description,Localization);
+                        databaseRef.child("journeys").child(hash).setValue(newJourney);
+
+                        startActivity(new Intent(HitchhikeActivity.this, MainActivity.class));
+
+                        Toast.makeText(HitchhikeActivity.this,"Added", Toast.LENGTH_SHORT).show();
                     }else{
-                        //Toast.makeText(HitchhikeActivity.this,"Couldn't read location.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(HitchhikeActivity.this,"Couldn't read location.", Toast.LENGTH_SHORT).show();
                     }
                 }
             });
-
         }catch (SecurityException e){
             Log.e(TAG,"getDeviceLocation: SecurityException" + e.getMessage());
         }
-
-        currentUser = mAuth.getCurrentUser();
-        final Hitchhike newJourney = new Hitchhike(currentUser.getUid(),Description,Localization);
-        String hash = Integer.toString(Math.abs((Description + Localization + currentUser.getUid()).hashCode()));
-        //String loc = currentLocation.toString();
-        databaseRef.child("journeys").child(hash).setValue(newJourney);
-
-        startActivity(new Intent(HitchhikeActivity.this, MainActivity.class));
     }
 
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 1;
