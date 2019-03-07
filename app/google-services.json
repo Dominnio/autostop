@@ -23,6 +23,14 @@
           }
         },
         {
+          "client_id": "673044224616-ptd252541o15uftk7bun7fnpt92pek7n.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.stopauto",
+            "certificate_hash": "53bd0138438057dd0faee109a7cd3f5c0afacb92"
+          }
+        },
+        {
           "client_id": "673044224616-6t7mbkgk7te39tt1q5adrio33e8g124o.apps.googleusercontent.com",
           "client_type": 3
         }

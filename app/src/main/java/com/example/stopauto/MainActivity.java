@@ -113,7 +113,8 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_users) {
 
         } else if (id == R.id.nav_add_ride) {
-
+            Intent myIntent = new Intent(this, HitchhikeActivity.class);
+            this.startActivity(myIntent);
         } else if (id == R.id.nav_find_place) {
 
         } else if (id == R.id.nav_find_hitchihiker) {

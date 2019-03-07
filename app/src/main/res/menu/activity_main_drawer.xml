@@ -7,19 +7,19 @@
         <item
             android:id="@+id/nav_profile"
             android:icon="@drawable/menu_profile"
-            android:title="Mój profil" />
+            android:title="My profile" />
         <item
             android:id="@+id/nav_messages"
             android:icon="@drawable/menu_messages"
-            android:title="Wiadomości" />
+            android:title="Messages" />
         <item
             android:id="@+id/nav_users"
             android:icon="@drawable/menu_users"
-            android:title="Inni użytkownicy" />
+            android:title="Other users" />
         <item
             android:id="@+id/nav_add_ride"
             android:icon="@drawable/menu_add_ride"
-            android:title="Doodaj potrzebę przejazdu" />
+            android:title="Hitchhike" />
     </group>
 
     <item android:title="Communicate">
@@ -27,11 +27,11 @@
             <item
                 android:id="@+id/nav_find_place"
                 android:icon="@drawable/menu_find_place"
-                android:title="Szukaj miejsca" />
+                android:title="Find a place" />
             <item
                 android:id="@+id/nav_find_hitchihiker"
                 android:icon="@drawable/menu_find_hitchhiker"
-                android:title="Szukaj autostopowicza" />
+                android:title="Search for a hitchhiker" />
         </menu>
     </item>
 

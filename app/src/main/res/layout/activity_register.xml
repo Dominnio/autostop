@@ -43,14 +43,74 @@
         android:hint="password"
         android:id="@+id/signup_password_input"
         android:inputType="textPassword"/>
-    <Spinner
-        android:id="@+id/spin"
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:entries="@array/sex"
-        android:padding="10dp"
-        android:singleLine="true" />
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="5dp"
+            android:padding="10dp"
+            android:text="Your sex"
+            android:textColor="#000" />
+        <Spinner
+            android:id="@+id/spin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:entries="@array/sex"
+            android:padding="10dp"
+            android:background="@drawable/border"
+            android:singleLine="true" />
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="5dp"
+
+            android:padding="10dp"
+            android:text="Date of birth"
+            android:textColor="#000" />
+
+        <Spinner
+            android:id="@+id/spin_day"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@drawable/border"
+            android:entries="@array/day"
+            android:padding="10dp"
+            android:singleLine="true" />
+
+        <Spinner
+            android:id="@+id/spin_month"
+            android:layout_width="88dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@drawable/border"
+            android:entries="@array/month"
+            android:padding="10dp"
+            android:singleLine="true" />
+
+        <Spinner
+            android:id="@+id/spin_year"
+            android:layout_width="96dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@drawable/border"
+            android:padding="10dp"
+            android:singleLine="true" />
+    </LinearLayout>
     <Button
         android:id="@+id/button_register"
         android:layout_width="wrap_content"
