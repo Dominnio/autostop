@@ -26,6 +26,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText email;
     private Button button_register;
     private Button button_login;
+    private Button button_forgotten;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +35,7 @@ public class LoginActivity extends AppCompatActivity {
         password =(EditText) findViewById(R.id.login_password_input);
         button_register = (Button)findViewById(R.id.register);
         button_login = (Button)findViewById(R.id.login);
+        button_forgotten = (Button) findViewById(R.id.forgotten);
         mAuth = FirebaseAuth.getInstance();
 
         button_register.setOnClickListener(new View.OnClickListener() {
@@ -50,6 +52,15 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (v == button_login){
                     LoginUser();
+                }
+            }
+        });
+        button_forgotten.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (v == button_forgotten){
+                    startActivity(new Intent(getApplicationContext(),
+                            ForgottenPasswordActivity.class));
                 }
             }
         });

@@ -9,13 +9,13 @@
             android:icon="@drawable/menu_profile"
             android:title="My profile" />
         <item
-            android:id="@+id/nav_users"
-            android:icon="@drawable/menu_users"
-            android:title="Other users" />
-        <item
             android:id="@+id/nav_add_ride"
             android:icon="@drawable/menu_add_ride"
             android:title="Hitchhike" />
+        <item
+            android:id="@+id/nav_other_users"
+            android:icon="@drawable/menu_users"
+            android:title="Other users" />
     </group>
 
     <item android:title="Communicate">
@@ -30,5 +30,10 @@
                 android:title="Search for a hitchhiker" />
         </menu>
     </item>
+
+    <item
+        android:id="@+id/nav_sign_out"
+        android:icon="@drawable/menu_sign_out"
+        android:title="Sign out" />
 
 </menu>

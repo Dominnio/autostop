@@ -27,7 +27,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ThrowOnExtraProperties;
 
 
 public class HitchhikeActivity extends AppCompatActivity  implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, ActivityCompat.OnRequestPermissionsResultCallback {
@@ -101,7 +100,7 @@ public class HitchhikeActivity extends AppCompatActivity  implements GoogleApiCl
             return;
         }else{
             if(Description.length() < 10) {
-                Toast.makeText(this, "Description is too short.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Description is too short", Toast.LENGTH_SHORT).show();
                 return;
             }
         }
@@ -116,13 +115,12 @@ public class HitchhikeActivity extends AppCompatActivity  implements GoogleApiCl
                     if(task.isSuccessful()){
                         currentLocation = (Location) task.getResult();
                         Log.e(TAG,"getting location"+ task.getResult().toString());
-
                         Localization = Location.convert(currentLocation.getLatitude(), Location.FORMAT_DEGREES) + " " + Location.convert(currentLocation.getLongitude(), Location.FORMAT_DEGREES);
-
                         currentUser = mAuth.getCurrentUser();
                         String hash = Integer.toString(Math.abs((Description + Localization + currentUser.getUid()).hashCode()));
                         final Hitchhike newJourney = new Hitchhike(currentUser.getUid(),Description,Localization);
                         databaseRef.child("journeys").child(hash).setValue(newJourney);
+                        databaseRef.child("users").child(currentUser.getUid()).child("current_journey").setValue(hash);
 
                         startActivity(new Intent(HitchhikeActivity.this, MainActivity.class));
 

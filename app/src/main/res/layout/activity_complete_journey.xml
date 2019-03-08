@@ -5,7 +5,6 @@
     android:layout_height="match_parent">
 
     <LinearLayout
-        android:id="@+id/textView_have_not_acount"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -15,7 +14,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:padding="20dp"
-            android:text="Hitchhike"
+            android:text="Complete the journey"
             android:textColor="#000"
             android:textSize="30sp" />
 
@@ -24,11 +23,11 @@
             android:layout_height="wrap_content"
             android:layout_gravity="left"
             android:padding="10dp"
-            android:text="Describe your journey. "
+            android:text="Was hitchhiking difficult? Share your experiences with others about the place where you hitchhiked. "
             android:textColor="#000" />
 
         <EditText
-            android:id="@+id/journey_describe"
+            android:id="@+id/complete_describe"
             android:layout_width="match_parent"
             android:layout_height="205dp"
             android:layout_margin="5dp"
@@ -37,7 +36,7 @@
             android:inputType="textMultiLine"
             android:padding="10dp" />
         <Button
-            android:id="@+id/button_add"
+            android:id="@+id/button_add_comment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

@@ -73,8 +73,9 @@ public class MainActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            //super.onBackPressed();
         }
+
     }
 
     @Override
@@ -108,9 +109,6 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_profile) {
             Intent myIntent = new Intent(this, ProfileActivity.class);
             this.startActivity(myIntent);
-        } else if (id == R.id.nav_users) {
-            Intent myIntent = new Intent(this, UsersListActivity.class);
-            this.startActivity(myIntent);
         } else if (id == R.id.nav_add_ride) {
             Intent myIntent = new Intent(this, HitchhikeActivity.class);
             this.startActivity(myIntent);
@@ -120,7 +118,15 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_find_hitchihiker) {
             Intent myIntent = new Intent(this, FindHitchhikerActivity.class);
             this.startActivity(myIntent);
+        } else if (id == R.id.nav_other_users) {
+            Intent myIntent = new Intent(this, OtherUsersSearchActivity.class);
+            this.startActivity(myIntent);
+        } else if (id == R.id.nav_sign_out) {
+            mAuth.signOut();
+            Intent myIntent = new Intent(this, LoginActivity.class);
+            this.startActivity(myIntent);
         }
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

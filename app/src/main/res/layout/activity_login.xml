@@ -47,6 +47,17 @@
             android:text="Sing in"
             android:textColor="#fff" />
 
+        <Button
+            android:id="@+id/forgotten"
+            android:layout_width="wrap_content"
+            android:layout_height="19dp"
+            android:layout_gravity="center"
+            android:textSize="10dp"
+            android:layout_marginTop="5dp"
+            android:background="#fff"
+            android:text="  Forgotten Password  "
+            android:textColor="#000" />
+
         <TextView
             android:id="@+id/not_account"
             android:layout_width="match_parent"

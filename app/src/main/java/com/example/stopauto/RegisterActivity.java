@@ -42,16 +42,17 @@ public class RegisterActivity extends AppCompatActivity {
 
     public static class User {
         public String email;
-        public String first_Name;
-        public String second_Name;
+        public String first_name;
+        public String second_name;
         public String sex;
-        public String birhtDate;
+        public String birthDate;
+        public String current_journey = "null";
 
         public User(String email, String fName, String sName, String sex, String birhtDate) {
-            this.birhtDate = birhtDate;
+            this.birthDate = birhtDate;
             this.sex = sex;
-            this.second_Name = sName;
-            this.first_Name = fName;
+            this.second_name = sName;
+            this.first_name = fName;
             this.email = email;
         }
     }
@@ -211,7 +212,7 @@ public class RegisterActivity extends AppCompatActivity {
                                         });
 
                             }else{
-                                Toast.makeText(RegisterActivity.this, "Register failed.",
+                                Toast.makeText(RegisterActivity.this, "Register failed." + task.getException().getMessage(),
                                         Toast.LENGTH_SHORT).show();
                             }
                         }catch (Exception e){
