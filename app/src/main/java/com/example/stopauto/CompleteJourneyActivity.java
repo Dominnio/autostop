@@ -44,6 +44,8 @@ public class CompleteJourneyActivity extends AppCompatActivity {
     private DatabaseReference databaseRef;
     private EditText description;
     private Button button_add;
+    private Button button_delete;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +53,7 @@ public class CompleteJourneyActivity extends AppCompatActivity {
         setContentView(R.layout.activity_complete_journey);
 
         button_add = (Button) findViewById(R.id.button_add_comment);
+        button_delete = (Button) findViewById(R.id.button_delete);
         description = (EditText) findViewById(R.id.complete_describe);
         mAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
@@ -61,6 +64,15 @@ public class CompleteJourneyActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (v == button_add) {
                     AddNote();
+                }
+            }
+        });
+
+        button_delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (v == button_delete) {
+                    Delete();
                 }
             }
         });
@@ -105,6 +117,15 @@ public class CompleteJourneyActivity extends AppCompatActivity {
         databaseRef.child("users").child(currentUser.getUid()).child("current_journey").setValue("null");
         databaseRef.child("journeys").child(Id_journey).removeValue();
         Toast.makeText(CompleteJourneyActivity.this,"Added", Toast.LENGTH_SHORT).show();
+        Intent myIntent = new Intent(this, MainActivity.class);
+        this.startActivity(myIntent);
+    }
+
+    public void Delete(){
+        currentUser = mAuth.getCurrentUser();
+        databaseRef.child("users").child(currentUser.getUid()).child("current_journey").setValue("null");
+        databaseRef.child("journeys").child(Id_journey).removeValue();
+        Toast.makeText(CompleteJourneyActivity.this,"Deleted", Toast.LENGTH_SHORT).show();
         Intent myIntent = new Intent(this, MainActivity.class);
         this.startActivity(myIntent);
     }

@@ -30,6 +30,7 @@ public class ProfileActivity extends AppCompatActivity {
     private TextView info_journey;
     private TextView is_journey;
     private Button complete;
+    private Button edit;
     private DatabaseReference userDataRef;
 
     @Override
@@ -47,6 +48,7 @@ public class ProfileActivity extends AppCompatActivity {
         info_journey = (TextView) findViewById(R.id.info_current_journey);
         is_journey = (TextView) findViewById(R.id.info_is_current_journey);
         complete = (Button) findViewById(R.id.button_complete);
+        edit = (Button) findViewById(R.id.button_edit);
 
         is_journey.setVisibility(View.INVISIBLE);
         info_journey.setVisibility(View.INVISIBLE);
@@ -57,6 +59,15 @@ public class ProfileActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (v == complete){
                     CompleteJourney();
+                }
+            }
+        });
+
+        edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (v == edit){
+                    EditUser();
                 }
             }
         });
@@ -89,5 +100,10 @@ public class ProfileActivity extends AppCompatActivity {
     public void CompleteJourney(){
         startActivity(new Intent(getApplicationContext(),
                 CompleteJourneyActivity.class));
+    }
+
+    public void EditUser(){
+        startActivity(new Intent(getApplicationContext(),
+                EditProfileActivity.class));
     }
 }
