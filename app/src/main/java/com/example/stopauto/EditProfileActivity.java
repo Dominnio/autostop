@@ -24,6 +24,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -57,11 +58,6 @@ public class EditProfileActivity extends AppCompatActivity {
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference databaseRef = database.getReference();
-
-    @Override
-    public void onBackPressed() {
-
-    }
 
 
     @Override
@@ -123,6 +119,7 @@ public class EditProfileActivity extends AppCompatActivity {
                 year.setSelection(getIndex(year,split[2]));
                 fName.setText(dataSnapshot.child("users").child(currentUser.getUid()).child("first_name").getValue().toString());
                 sName.setText(dataSnapshot.child("users").child(currentUser.getUid()).child("second_name").getValue().toString());
+
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
@@ -173,9 +170,14 @@ public class EditProfileActivity extends AppCompatActivity {
         databaseRef.child("users").child(currentUser.getUid()).child("second_name").setValue(Sname);
         databaseRef.child("users").child(currentUser.getUid()).child("sex").setValue(Sex);
 
+        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                .setDisplayName(Fname +" "+ Sname).build();
+        currentUser.updateProfile(profileUpdates);
+
         currentUser.updatePassword(Password);
         Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show();
-        finish();
+        Intent myIntent = new Intent(this, MainActivity.class);
+        this.startActivity(myIntent);
     }
 
 

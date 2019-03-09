@@ -13,16 +13,22 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import org.w3c.dom.Text;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private FirebaseAuth mAuth;
+    private TextView info_email;
+    private TextView info_name;
+    private NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,10 +46,21 @@ public class MainActivity extends AppCompatActivity
             this.startActivity(myIntent);
         }
 
-        //String email = currentUser.getEmail();
-        //String Uid = currentUser.getUid();
-
         setContentView(R.layout.activity_main);
+
+        if(currentUser != null) {
+
+            navigationView = (NavigationView) findViewById(R.id.nav_view);
+            navigationView.setNavigationItemSelectedListener(this);
+
+            View headView = navigationView.getHeaderView(0);
+
+            info_email = (TextView) headView.findViewById(R.id.nav_bar_email);
+            info_name = (TextView) headView.findViewById(R.id.nav_bar_user_name);
+
+            info_name.setText(currentUser.getDisplayName());
+            info_email.setText(currentUser.getEmail());
+        }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -85,6 +102,8 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Intent myIntent = new Intent(this, InfoActivity.class);
+            this.startActivity(myIntent);
             return true;
         }
 

@@ -24,6 +24,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -145,8 +146,8 @@ public class RegisterActivity extends AppCompatActivity {
     public void RegisterUser(){
         final String Email = email.getText().toString().trim();
         String Password = password.getText().toString().trim();
-        String Fname = fName.getText().toString().trim();
-        String Sname = sName.getText().toString().trim();
+        final String Fname = fName.getText().toString().trim();
+        final String Sname = sName.getText().toString().trim();
         String Sex = sex.getSelectedItem().toString();
         String Day = day.getSelectedItem().toString();
         String Month = month.getSelectedItem().toString();
@@ -186,6 +187,11 @@ public class RegisterActivity extends AppCompatActivity {
                                                 if (task.isSuccessful()) {
                                                     FirebaseAuth.getInstance().signOut();
                                                     databaseRef.child("users").child(currentUser.getUid()).setValue(newUser);
+
+                                                    UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                                                            .setDisplayName(Fname +" "+ Sname).build();
+                                                    currentUser.updateProfile(profileUpdates);
+
                                                     currentUser = null;
 
                                                     AlertDialog alertDialog= new AlertDialog.Builder(RegisterActivity.this).create();
