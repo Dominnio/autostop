@@ -99,7 +99,9 @@ public class OtherUser extends AppCompatActivity {
                     }
                 }
                 Float n = new Float(num);
-                sum /= n;
+                if(n != 0){
+                    sum /= n;
+                }
                 databaseRef.child("users").child(uuid).child("rate").setValue(sum);
                 info_rate.setText(dataSnapshot.child("users").child(uuid).child("rate").getValue().toString());
             }
