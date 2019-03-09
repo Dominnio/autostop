@@ -47,6 +47,7 @@ public class RegisterActivity extends AppCompatActivity {
         public String sex;
         public String birthDate;
         public String current_journey = "null";
+        public String rate = "0";
 
         public User(String email, String fName, String sName, String sex, String birhtDate) {
             this.birthDate = birhtDate;

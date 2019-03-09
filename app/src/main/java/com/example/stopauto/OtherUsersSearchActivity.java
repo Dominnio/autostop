@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.common.data.DataBufferSafeParcelable;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -43,6 +44,8 @@ public class OtherUsersSearchActivity extends AppCompatActivity implements View.
     private FirebaseDatabase database;
     private DatabaseReference databaseRef;
     private LinearLayout users_view;
+    private FirebaseAuth mAuth;
+    private FirebaseUser currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +56,8 @@ public class OtherUsersSearchActivity extends AppCompatActivity implements View.
         email = (EditText) findViewById(R.id.user_search);
         database = FirebaseDatabase.getInstance();
         databaseRef = database.getReference();
+        mAuth = FirebaseAuth.getInstance();
+        currentUser = mAuth.getCurrentUser();
         users_view = (LinearLayout) findViewById(R.id.users_view);
 
         search.setOnClickListener(new View.OnClickListener() {
@@ -76,7 +81,9 @@ public class OtherUsersSearchActivity extends AppCompatActivity implements View.
                 while(iter.hasNext()){
                     DataSnapshot user = iter.next();
                     if(user.child("email").getValue().toString().contains(Email)){
-                        Log.d("Mam takie cos","cos");
+                        if(user.child("email").getValue().toString().equals(dataSnapshot.child("users").child(currentUser.getUid()).child("email").getValue().toString())){
+                            continue;
+                        }
                         TextView user_view = new TextView(OtherUsersSearchActivity.this);
                         user_view.setText(user.child("email").getValue().toString());
                         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(

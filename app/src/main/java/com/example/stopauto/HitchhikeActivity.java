@@ -28,6 +28,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.Random;
+
 
 public class HitchhikeActivity extends AppCompatActivity  implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, ActivityCompat.OnRequestPermissionsResultCallback {
 
@@ -117,14 +119,18 @@ public class HitchhikeActivity extends AppCompatActivity  implements GoogleApiCl
                         Log.e(TAG,"getting location"+ task.getResult().toString());
                         Localization = Location.convert(currentLocation.getLatitude(), Location.FORMAT_DEGREES) + " " + Location.convert(currentLocation.getLongitude(), Location.FORMAT_DEGREES);
                         currentUser = mAuth.getCurrentUser();
-                        String hash = Integer.toString(Math.abs((Description + Localization + currentUser.getUid()).hashCode()));
-                        final Hitchhike newJourney = new Hitchhike(currentUser.getUid(),Description,Localization);
-                        databaseRef.child("journeys").child(hash).setValue(newJourney);
-                        databaseRef.child("users").child(currentUser.getUid()).child("current_journey").setValue(hash);
+                        String hash = Integer.toString(Math.abs(((new Random().nextInt()) + Description + Localization + currentUser.getUid()).hashCode()));
+                        if(databaseRef.child("journeys").child(hash) != null){
+                            Toast.makeText(HitchhikeActivity.this,"Something went wrong, try again", Toast.LENGTH_SHORT).show();
+                        }else {
+                            final Hitchhike newJourney = new Hitchhike(currentUser.getUid(), Description, Localization);
+                            databaseRef.child("journeys").child(hash).setValue(newJourney);
+                            databaseRef.child("users").child(currentUser.getUid()).child("current_journey").setValue(hash);
 
-                        startActivity(new Intent(HitchhikeActivity.this, MainActivity.class));
+                            startActivity(new Intent(HitchhikeActivity.this, MainActivity.class));
 
-                        Toast.makeText(HitchhikeActivity.this,"Added", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(HitchhikeActivity.this, "Added", Toast.LENGTH_SHORT).show();
+                        }
                     }else{
                         Toast.makeText(HitchhikeActivity.this,"Couldn't read location.", Toast.LENGTH_SHORT).show();
                     }

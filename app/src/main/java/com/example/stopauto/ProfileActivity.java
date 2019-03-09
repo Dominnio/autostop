@@ -26,12 +26,12 @@ public class ProfileActivity extends AppCompatActivity {
     private TextView info_email;
     private TextView info_full_name;
     private TextView info_sex;
+    private TextView info_rate;
     private TextView info_date_of_birth;
     private TextView info_journey;
     private TextView is_journey;
     private Button complete;
     private Button edit;
-    private DatabaseReference userDataRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +46,7 @@ public class ProfileActivity extends AppCompatActivity {
         info_date_of_birth = (TextView) findViewById(R.id.info_birth_date);
         info_sex = (TextView) findViewById(R.id.info_sex);
         info_journey = (TextView) findViewById(R.id.info_current_journey);
+        info_rate = (TextView) findViewById(R.id.info_rate);
         is_journey = (TextView) findViewById(R.id.info_is_current_journey);
         complete = (Button) findViewById(R.id.button_complete);
         edit = (Button) findViewById(R.id.button_edit);
@@ -78,6 +79,7 @@ public class ProfileActivity extends AppCompatActivity {
                     info_email.setText(dataSnapshot.child("users").child(currentUser.getUid()).child("email").getValue().toString());
                     info_date_of_birth.setText(dataSnapshot.child("users").child(currentUser.getUid()).child("birthDate").getValue().toString());
                     info_sex.setText(dataSnapshot.child("users").child(currentUser.getUid()).child("sex").getValue().toString());
+                    info_rate.setText(dataSnapshot.child("users").child(currentUser.getUid()).child("rate").getValue().toString());
                     info_full_name.setText(dataSnapshot.child("users").child(currentUser.getUid()).child("first_name").getValue().toString() + " " +
                             dataSnapshot.child("users").child(currentUser.getUid()).child("second_name").getValue().toString());
                     if(!dataSnapshot.child("users").child(currentUser.getUid()).child("current_journey").getValue().toString().equals("null")){

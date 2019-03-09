@@ -87,8 +87,33 @@
             android:text="Date of birth"
             android:textColor="#000" />
 
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="125dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="5dp"
+            android:padding="10dp"
+            android:text="Overall rate"
+            android:textColor="#000" />
+        <TextView
+            android:id="@+id/info_rate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="5dp"
+            android:padding="10dp"
+            android:text=""
+            android:textColor="#000" />
 
     </LinearLayout>
+
     <Button
         android:id="@+id/button_edit"
         android:layout_width="wrap_content"
