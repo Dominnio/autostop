@@ -1,6 +1,7 @@
 package com.example.stopauto;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
@@ -32,7 +33,9 @@ public class OtherUsersSearchActivity extends AppCompatActivity implements View.
     @Override
     public void onClick(View view){
         TextView textView = (TextView) view;
-        Toast.makeText(OtherUsersSearchActivity.this,textView.getText(), Toast.LENGTH_SHORT).show();
+        Intent myIntent = new Intent(this, OtherUser.class);
+        myIntent.putExtra("email",textView.getText());
+        this.startActivity(myIntent);
     }
 
     private Button search;
@@ -84,7 +87,6 @@ public class OtherUsersSearchActivity extends AppCompatActivity implements View.
                         user_view.setOnClickListener(OtherUsersSearchActivity.this);
                         user_view.setPadding(10,10,10,10);
                         user_view.setBackgroundResource(R.drawable.border);
-
                         users_view.addView(user_view);
                         find = true;
                     }
