@@ -84,7 +84,7 @@
             android:layout_gravity="center"
             android:layout_margin="5dp"
             android:padding="10dp"
-            android:text="Date of birth"
+            android:text=""
             android:textColor="#000" />
 
     </LinearLayout>

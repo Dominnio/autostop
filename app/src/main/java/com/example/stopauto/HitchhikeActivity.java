@@ -1,6 +1,7 @@
 package com.example.stopauto;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -8,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -15,6 +17,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -25,9 +28,13 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import java.time.chrono.HijrahEra;
 import java.util.Random;
 
 
@@ -81,7 +88,7 @@ public class HitchhikeActivity extends AppCompatActivity  implements GoogleApiCl
         mAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
         databaseRef = database.getReference();
-
+        currentUser = mAuth.getCurrentUser();
         button_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -90,12 +97,44 @@ public class HitchhikeActivity extends AppCompatActivity  implements GoogleApiCl
                 }
             }
         });
+
+        databaseRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String journey = dataSnapshot.child("users").child(currentUser.getUid()).child("current_journey").getValue().toString();
+                if(!journey.equals("null")){
+                    AlertDialog alertDialog= new AlertDialog.Builder(HitchhikeActivity.this).create();
+                    alertDialog.setTitle("Alert");
+                    alertDialog.setMessage("Already you have an announcement. Do you want to overwrite it?");
+                    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Yes, overwrite",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
+                    alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "No",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                    startActivity(new Intent(HitchhikeActivity.this, MainActivity.class));
+                                }
+                            });
+                    alertDialog.show();
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.e("UserListActivity", "Error occured");
+                // Do something about the error
+            }
+        });
     }
 
     private String Localization;
     private String Description;
 
     public void AddRide(){
+
         Description = description.getText().toString().trim();
         if (TextUtils.isEmpty(Description)){
             Toast.makeText(this, "Description is Empty", Toast.LENGTH_SHORT).show();
@@ -106,9 +145,7 @@ public class HitchhikeActivity extends AppCompatActivity  implements GoogleApiCl
                 return;
             }
         }
-
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
-
         try{
             Task location = mFusedLocationProviderClient.getLastLocation();
             location.addOnCompleteListener(new OnCompleteListener() {
@@ -119,10 +156,9 @@ public class HitchhikeActivity extends AppCompatActivity  implements GoogleApiCl
                         Log.e(TAG,"getting location"+ task.getResult().toString());
                         Localization = Location.convert(currentLocation.getLatitude(), Location.FORMAT_DEGREES) + " " + Location.convert(currentLocation.getLongitude(), Location.FORMAT_DEGREES);
                         currentUser = mAuth.getCurrentUser();
-                        String hash = Integer.toString(Math.abs(((new Random().nextInt()) + Description + Localization + currentUser.getUid()).hashCode()));
                         final Hitchhike newJourney = new Hitchhike(currentUser.getUid(),Description,Localization);
-                        databaseRef.child("journeys").child(hash).setValue(newJourney);
-                        databaseRef.child("users").child(currentUser.getUid()).child("current_journey").setValue(hash);
+                        databaseRef.child("journeys").child(currentUser.getUid()).setValue(newJourney);
+                        databaseRef.child("users").child(currentUser.getUid()).child("current_journey").setValue(currentUser.getUid());
 
                         startActivity(new Intent(HitchhikeActivity.this, MainActivity.class));
 

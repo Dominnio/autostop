@@ -22,9 +22,9 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="left"
+            android:layout_gravity="center_vertical|end"
             android:padding="10dp"
-            android:text="Describe your journey. "
+            android:text="Here you can describe your journey here. After add your localization and announcement will be displayed to other users. You can see your current announcement in 'My profile'."
             android:textColor="#000" />
 
         <EditText
