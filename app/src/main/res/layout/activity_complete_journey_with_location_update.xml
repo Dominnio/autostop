@@ -5,7 +5,6 @@
     android:layout_height="match_parent">
 
     <LinearLayout
-        android:id="@+id/textView_have_not_acount"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -15,20 +14,20 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:padding="20dp"
-            android:text="Hitchhike"
+            android:text="Update location"
             android:textColor="#000"
             android:textSize="30sp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical|end"
+            android:layout_gravity="left"
             android:padding="10dp"
-            android:text="Here you can describe your journey. After add your localization and announcement will be displayed to other users. You can see your current announcement in 'My profile'."
+            android:text="Share your experiences with others about the place where you hitchhiked. After update your location will be updated, but announcement will be the same."
             android:textColor="#000" />
 
         <EditText
-            android:id="@+id/journey_describe"
+            android:id="@+id/complete_describe"
             android:layout_width="match_parent"
             android:layout_height="205dp"
             android:layout_margin="5dp"
@@ -36,15 +35,26 @@
             android:gravity="top"
             android:inputType="textMultiLine"
             android:padding="10dp" />
+
         <Button
-            android:id="@+id/button_add"
+            android:id="@+id/button_add_comment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="10dp"
             android:background="#000"
-            android:text="Add"
+            android:text="   Add and Update  "
             android:textColor="#fff" />
+        <Button
+            android:id="@+id/button_update_without_comment"
+            android:layout_width="wrap_content"
+            android:layout_height="19dp"
+            android:layout_gravity="center"
+            android:textSize="10dp"
+            android:layout_marginTop="5dp"
+            android:background="#fff"
+            android:text="  Update without comment  "
+            android:textColor="#000" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

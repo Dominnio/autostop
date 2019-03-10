@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -73,6 +74,7 @@ public class HitchhikeActivity extends AppCompatActivity  implements GoogleApiCl
     private FirebaseDatabase database;
     private DatabaseReference databaseRef;
     private EditText description;
+    private TextView help;
     private Button button_add;
     private GoogleApiClient mGoogleApiClient;
     private FusedLocationProviderClient mFusedLocationProviderClient;
@@ -85,6 +87,7 @@ public class HitchhikeActivity extends AppCompatActivity  implements GoogleApiCl
         setContentView(R.layout.activity_hitchhike);
         button_add = (Button) findViewById(R.id.button_add);
         description = (EditText) findViewById(R.id.journey_describe);
+        help = findViewById(R.id.help);
         mAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
         databaseRef = database.getReference();

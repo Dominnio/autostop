@@ -52,6 +52,8 @@ public class FindHitchhikerActivity extends FragmentActivity implements OnMapRea
     private FirebaseUser currentUser;
     private FirebaseAuth mAuth;
     private Button button;
+    private String email;
+
 
 
     @Override
@@ -81,6 +83,15 @@ public class FindHitchhikerActivity extends FragmentActivity implements OnMapRea
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+                Intent myIntent = new Intent(FindHitchhikerActivity.this, OtherUser.class);
+                myIntent.putExtra("email", email);
+                FindHitchhikerActivity.this.startActivity(myIntent);
+            }
+        });
+
         getLocationPermission();
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
@@ -92,8 +103,6 @@ public class FindHitchhikerActivity extends FragmentActivity implements OnMapRea
                     if(task.isSuccessful()){
 
                         databaseRef.addValueEventListener(new ValueEventListener() {
-
-                            String email;
 
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -115,12 +124,8 @@ public class FindHitchhikerActivity extends FragmentActivity implements OnMapRea
 
                                         @Override
                                         public View getInfoWindow(Marker arg0) {
-                                            Intent myIntent = new Intent(FindHitchhikerActivity.this, OtherUser.class);
-                                            myIntent.putExtra("email", email);
-                                            FindHitchhikerActivity.this.startActivity(myIntent);
                                             return null;
                                         }
-
 
                                         @Override
                                         public View getInfoContents(Marker marker) {

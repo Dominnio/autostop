@@ -55,5 +55,14 @@
             android:background="#fff"
             android:text="  Delete without comment  "
             android:textColor="#000" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:padding="10dp"
+            android:id="@+id/help"
+            android:text=""
+            android:textColor="#808080" />
     </LinearLayout>
 </LinearLayout>
