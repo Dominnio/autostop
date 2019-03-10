@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.webkit.WebView;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -50,6 +51,7 @@ public class FindHitchhikerActivity extends FragmentActivity implements OnMapRea
     private DatabaseReference databaseRef;
     private FirebaseUser currentUser;
     private FirebaseAuth mAuth;
+    private Button button;
 
 
     @Override
@@ -103,7 +105,7 @@ public class FindHitchhikerActivity extends FragmentActivity implements OnMapRea
                                     if(uuid.equals(currentUser.getUid())){
                                         continue;
                                     }
-                                    String snippet_string = journey.child("description").getValue().toString();
+                                    final String snippet_string = journey.child("description").getValue().toString();
                                     String[] loc = journey.child("localization").getValue().toString().replace(",",".").split(" ");
                                     LatLng pos = new LatLng(Float.parseFloat(loc[0]),Float.parseFloat(loc[1]));
                                     email = dataSnapshot.child("users").child(uuid).child("email").getValue().toString();
@@ -113,26 +115,26 @@ public class FindHitchhikerActivity extends FragmentActivity implements OnMapRea
 
                                         @Override
                                         public View getInfoWindow(Marker arg0) {
+                                            Intent myIntent = new Intent(FindHitchhikerActivity.this, OtherUser.class);
+                                            myIntent.putExtra("email", email);
+                                            FindHitchhikerActivity.this.startActivity(myIntent);
                                             return null;
                                         }
+
 
                                         @Override
                                         public View getInfoContents(Marker marker) {
 
-                                            Intent myIntent = new Intent(FindHitchhikerActivity.this, OtherUser.class);
-                                            myIntent.putExtra("email",email);
-                                            FindHitchhikerActivity.this.startActivity(myIntent);
-
                                             LinearLayout info = new LinearLayout(getApplicationContext());
                                             info.setOrientation(LinearLayout.VERTICAL);
 
-                                            TextView title = new TextView(getApplicationContext());
+                                            final TextView title = new TextView(getApplicationContext());
                                             title.setTextColor(Color.BLACK);
                                             title.setGravity(Gravity.CENTER);
                                             title.setTypeface(null, Typeface.BOLD);
                                             title.setText(marker.getTitle());
 
-                                            TextView snippet = new TextView(getApplicationContext());
+                                            final TextView snippet = new TextView(getApplicationContext());
                                             snippet.setTextColor(Color.GRAY);
                                             snippet.setText(marker.getSnippet());
 

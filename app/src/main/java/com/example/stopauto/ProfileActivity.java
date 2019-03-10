@@ -16,6 +16,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Iterator;
+
 public class ProfileActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
@@ -79,17 +81,23 @@ public class ProfileActivity extends AppCompatActivity {
                     info_email.setText(dataSnapshot.child("users").child(currentUser.getUid()).child("email").getValue().toString());
                     info_date_of_birth.setText(dataSnapshot.child("users").child(currentUser.getUid()).child("birthDate").getValue().toString());
                     info_sex.setText(dataSnapshot.child("users").child(currentUser.getUid()).child("sex").getValue().toString());
-                    info_rate.setText(dataSnapshot.child("users").child(currentUser.getUid()).child("rate").getValue().toString());
                     info_full_name.setText(dataSnapshot.child("users").child(currentUser.getUid()).child("first_name").getValue().toString() + " " +
                             dataSnapshot.child("users").child(currentUser.getUid()).child("second_name").getValue().toString());
                     if(!dataSnapshot.child("users").child(currentUser.getUid()).child("current_journey").getValue().toString().equals("null")){
-                        Log.d("mam takie cos", dataSnapshot.child("users").child(currentUser.getUid()).child("current_journey").getValue().toString());
                         String journey_id = dataSnapshot.child("users").child(currentUser.getUid()).child("current_journey").getValue().toString();
                         info_journey.setText(dataSnapshot.child("journeys").child(journey_id).child("description").getValue().toString());
                         is_journey.setVisibility(View.VISIBLE);
                         info_journey.setVisibility(View.VISIBLE);
                         complete.setVisibility(View.VISIBLE);
                     }
+                    Iterable <DataSnapshot> rates = dataSnapshot.child("users").child(currentUser.getUid()).child("rates").getChildren();
+                    Iterator<DataSnapshot> iter_rate = rates.iterator();
+                    int num = 0;
+                    while(iter_rate.hasNext()){
+                        DataSnapshot rate = iter_rate.next();
+                        num += 1;
+                    }
+                    info_rate.setText(dataSnapshot.child("users").child(currentUser.getUid()).child("rate").getValue().toString()  + " ("+ num +")");
                 }
                 @Override
                 public void onCancelled(DatabaseError databaseError) {

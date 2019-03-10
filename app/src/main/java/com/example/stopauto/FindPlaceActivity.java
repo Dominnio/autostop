@@ -97,6 +97,7 @@ public class FindPlaceActivity extends FragmentActivity implements OnMapReadyCal
                                 while(iter.hasNext()){
                                     DataSnapshot place = iter.next();
                                     String snippet_string = place.child("description").getValue().toString();
+                                    final String location = place.child("localization").getValue().toString();
                                     String[] loc = place.child("localization").getValue().toString().replace(",",".").split(" ");
                                     LatLng pos = new LatLng(Float.parseFloat(loc[0]),Float.parseFloat(loc[1]));
                                     mMap.addMarker(new MarkerOptions().position(pos).snippet(snippet_string).title(place.child("localization").getValue().toString()).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
@@ -109,6 +110,10 @@ public class FindPlaceActivity extends FragmentActivity implements OnMapReadyCal
 
                                         @Override
                                         public View getInfoContents(Marker marker) {
+
+                                            Intent myIntent = new Intent(FindPlaceActivity.this, OpinionsActivity.class);
+                                            myIntent.putExtra("location", location);
+                                            FindPlaceActivity.this.startActivity(myIntent);
 
                                             LinearLayout info = new LinearLayout(getApplicationContext());
                                             info.setOrientation(LinearLayout.VERTICAL);

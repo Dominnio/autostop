@@ -93,9 +93,11 @@ public class OtherUser extends AppCompatActivity {
                 while(iter_rate.hasNext()){
                     DataSnapshot rate = iter_rate.next();
                     sum += Float.parseFloat(rate.getValue().toString());
-                    num += 1;
                     if(rate.getKey().toString().equals(currentUser.getUid())){
                         info_rate_bar.setRating(Float.parseFloat(rate.getValue().toString()));
+                    }
+                    if(Integer.parseInt(rate.getValue().toString()) != 0) {
+                        num += 1;
                     }
                 }
                 Float n = new Float(num);
@@ -103,7 +105,7 @@ public class OtherUser extends AppCompatActivity {
                     sum /= n;
                 }
                 databaseRef.child("users").child(uuid).child("rate").setValue(sum);
-                info_rate.setText(dataSnapshot.child("users").child(uuid).child("rate").getValue().toString());
+                info_rate.setText(dataSnapshot.child("users").child(uuid).child("rate").getValue().toString() + " ("+ num +")");
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
