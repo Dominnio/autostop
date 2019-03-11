@@ -1,12 +1,16 @@
 package com.example.stopauto;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 public class InfoActivity extends AppCompatActivity {
 
     private TextView info;
+    private Button button_terms;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -14,9 +18,9 @@ public class InfoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_info);
 
         info = (TextView) findViewById(R.id.info_text);
-
+        button_terms = (Button)findViewById(R.id.terms);
         String text = "Questions, suggestions, contact with the developer : wpampw@gmail.com." + "\n\n" +
-                "Stopauto makes it easier to travel by hitchhiking." + "\n\n"
+                "Hitchhike app makes it easier to travel by hitchhiking." + "\n\n"
                 +"1) Adding announcement"+ "\n"
                 + "Go to the 'Hitchhike' tab. There you can add an announcement that will be visible to other users. You do not need to describe your location, it will be shared with others automatically. You can write the advertisement in any language. It's best to add several language versions, e.g. English, the language of the country you are in and your native language. After adding the announcement it will be visible in the 'My profile' tab. If you change the place you should either add new announcement or update the location. Remeber that only one announcement can be active." +"\n\n"
                 +"2) Sharing opinion about places"+ "\n"
@@ -30,5 +34,19 @@ public class InfoActivity extends AppCompatActivity {
                 ;
 
         info.setText(text);
+
+        button_terms.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (v == button_terms){
+                    ShowTerms();
+                }
+            }
+        });
+    }
+
+    public void ShowTerms(){
+        Intent myIntent = new Intent(this, TermsActivity.class);
+        this.startActivity(myIntent);
     }
 }

@@ -111,6 +111,24 @@
             android:padding="10dp"
             android:singleLine="true" />
     </LinearLayout>
+
+    <CheckBox
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/terms_of_use"
+        android:layout_margin="5dp"
+        android:padding="10dp"
+        android:text="@string/terms"/>
+    <Button
+        android:id="@+id/terms"
+        android:layout_width="wrap_content"
+        android:layout_height="19dp"
+        android:layout_gravity="right"
+        android:layout_marginRight="5dp"
+        android:textSize="10dp"
+        android:background="#fff"
+        android:text="  Terms and conditions  "
+        android:textColor="#000" />
     <Button
         android:id="@+id/button_register"
         android:layout_width="wrap_content"
@@ -119,13 +137,13 @@
         android:background="#000"
         android:textColor="#fff"
         android:layout_gravity="center"
-        android:layout_marginTop="40dp"/>
+        android:layout_marginTop="10dp"/>
     <TextView
         android:id="@+id/not_account"
         android:layout_width="match_parent"
         android:layout_height="37dp"
         android:gravity="center"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="10dp"
         android:text="Already have an account?" />
 
     <Button
@@ -136,6 +154,7 @@
         android:background="#000"
         android:textColor="#fff"
         android:layout_gravity="center"
-        android:layout_marginTop="10dp"/>
+        android:layout_marginTop="0dp"/>
 
 </LinearLayout>
+

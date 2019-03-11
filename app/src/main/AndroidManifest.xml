@@ -17,7 +17,8 @@
         android:roundIcon="@mipmap/ic_launcher_h"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".CompleteJourneyActivityWithLocationUpdate"></activity>
+        <activity android:name=".TermsActivity" />
+        <activity android:name=".CompleteJourneyActivityWithLocationUpdate" />
         <activity android:name=".OpinionsActivity" />
         <activity android:name=".InfoActivity" />
         <activity android:name=".EditProfileActivity" />

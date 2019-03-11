@@ -53,12 +53,10 @@ public class EditProfileActivity extends AppCompatActivity {
     private Spinner day;
     private Spinner month;
     private Spinner year;
-
     private Button button_save;
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference databaseRef = database.getReference();
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,12 +92,10 @@ public class EditProfileActivity extends AppCompatActivity {
         day = (Spinner) findViewById(R.id.spin_day);
         month = (Spinner) findViewById(R.id.spin_month);
         year = (Spinner) findViewById(R.id.spin_year);
-
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
 
         databaseRef.addValueEventListener(new ValueEventListener() {
-
             private int getIndex(Spinner spin, String s){
                 for (int i=0;i<spin.getCount();i++){
                     if (spin.getItemAtPosition(i).toString().equalsIgnoreCase(s)){

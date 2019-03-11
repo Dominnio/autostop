@@ -51,7 +51,6 @@ public class FindPlaceActivity extends FragmentActivity implements OnMapReadyCal
     private Location currentLocation;
     private FirebaseDatabase database;
     private DatabaseReference databaseRef;
-    private String location_string;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +63,6 @@ public class FindPlaceActivity extends FragmentActivity implements OnMapReadyCal
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
     }
-
 
     /**
      * Manipulates the map once available.
@@ -82,7 +80,7 @@ public class FindPlaceActivity extends FragmentActivity implements OnMapReadyCal
             @Override
             public void onInfoWindowClick(Marker marker) {
                 Intent myIntent = new Intent(FindPlaceActivity.this, OpinionsActivity.class);
-                myIntent.putExtra("location", location_string);
+                myIntent.putExtra("location", marker.getTitle());
                 FindPlaceActivity.this.startActivity(myIntent);
             }
         });
@@ -95,9 +93,7 @@ public class FindPlaceActivity extends FragmentActivity implements OnMapReadyCal
                 @Override
                 public void onComplete(@NonNull Task task) {
                     if(task.isSuccessful()){
-
                         databaseRef.addValueEventListener(new ValueEventListener() {
-
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
                                 Iterable<DataSnapshot> places = dataSnapshot.child("notes").getChildren();
@@ -105,7 +101,6 @@ public class FindPlaceActivity extends FragmentActivity implements OnMapReadyCal
                                 while(iter.hasNext()){
                                     DataSnapshot place = iter.next();
                                     String snippet_string = place.child("description").getValue().toString();
-                                    location_string = place.child("localization").getValue().toString();
                                     String[] loc = place.child("localization").getValue().toString().replace(",",".").split(" ");
                                     LatLng pos = new LatLng(Float.parseFloat(loc[0]),Float.parseFloat(loc[1]));
                                     mMap.addMarker(new MarkerOptions().position(pos).snippet(snippet_string).title(place.child("localization").getValue().toString()).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
@@ -118,7 +113,6 @@ public class FindPlaceActivity extends FragmentActivity implements OnMapReadyCal
 
                                         @Override
                                         public View getInfoContents(Marker marker) {
-
                                             LinearLayout info = new LinearLayout(getApplicationContext());
                                             info.setOrientation(LinearLayout.VERTICAL);
 
@@ -152,6 +146,9 @@ public class FindPlaceActivity extends FragmentActivity implements OnMapReadyCal
                         LatLng current = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
                         mMap.addMarker(new MarkerOptions().position(current).title("Your location"));
                         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(current,10.0f));
+                    }else{
+                        if(!mLocationPermissionGranted)
+                            Toast.makeText(FindPlaceActivity.this, "Location permission not granted", Toast.LENGTH_SHORT).show();
                     }
                 }
             });
@@ -166,17 +163,16 @@ public class FindPlaceActivity extends FragmentActivity implements OnMapReadyCal
 
     private void getLocationPermission(){
         String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION};
-
         if(ContextCompat.checkSelfPermission(this.getApplicationContext(),Manifest.permission.ACCESS_FINE_LOCATION) ==
                 PackageManager.PERMISSION_GRANTED){
             if(ContextCompat.checkSelfPermission(this.getApplicationContext(),Manifest.permission.ACCESS_COARSE_LOCATION) ==
                     PackageManager.PERMISSION_GRANTED) {
                 mLocationPermissionGranted = true;
             }else {
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION}, MY_PERMISSIONS_REQUEST_LOCATION);
+                ActivityCompat.requestPermissions(this, permissions, MY_PERMISSIONS_REQUEST_LOCATION);
             }
         }else {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION}, MY_PERMISSIONS_REQUEST_LOCATION);
+            ActivityCompat.requestPermissions(this,permissions, MY_PERMISSIONS_REQUEST_LOCATION);
         }
     }
 

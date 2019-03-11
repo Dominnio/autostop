@@ -1,10 +1,8 @@
 package com.example.stopauto;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Location;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -12,7 +10,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -49,13 +46,12 @@ public class CompleteJourneyActivityWithLocationUpdate extends AppCompatActivity
     private EditText description;
     private Button button_add_comment;
     private Button button_update_without_comment;
-
-    private GoogleApiClient mGoogleApiClient;
     private FusedLocationProviderClient mFusedLocationProviderClient;
     private Location currentLocation;
     private String Localization;
     private String Localization_updated;
-    private String Description;
+    private String Uuid;
+    private String Id_journey;
 
 
     @Override
@@ -122,9 +118,6 @@ public class CompleteJourneyActivityWithLocationUpdate extends AppCompatActivity
         }
 
     }
-
-    private String Uuid;
-    private String Id_journey;
 
     public void AddNote(){
         String Description = description.getText().toString().trim();

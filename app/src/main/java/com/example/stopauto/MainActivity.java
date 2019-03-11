@@ -1,12 +1,13 @@
 package com.example.stopauto;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Location;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
@@ -35,9 +36,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import org.w3c.dom.Text;
-
 import java.util.Iterator;
 
 public class MainActivity extends AppCompatActivity
@@ -53,13 +51,28 @@ public class MainActivity extends AppCompatActivity
     private GoogleApiClient mGoogleApiClient;
     private FusedLocationProviderClient mFusedLocationProviderClient;
     private Location currentLocation;
-    private String Localization;
-    private String Description;
     private FirebaseUser currentUser;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        ConnectivityManager mgr = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = mgr.getActiveNetworkInfo();
+
+        if (netInfo != null) {
+            if (netInfo.isConnected()) {
+                // Internet Available
+            }else {
+                Toast.makeText(this, "No internet connection", Toast.LENGTH_LONG).show();
+                //Intent myIntent = new Intent(this, NoInternetActivity.class);
+                //this.startActivity(myIntent);
+            }
+        } else {
+            Toast.makeText(this, "No internet connection", Toast.LENGTH_LONG).show();
+            //Intent myIntent = new Intent(this, NoInternetActivity.class);
+            //this.startActivity(myIntent);
+        }
 
         FirebaseApp.initializeApp(this);
 
@@ -120,7 +133,9 @@ public class MainActivity extends AppCompatActivity
                     while (iter.hasNext()) {
                         DataSnapshot ad = iter.next();
                         TextView ad_view = new TextView(MainActivity.this);
-                        ad_view.setText(ad.child("description").getValue().toString());
+                        ad_view.setText(ad.child("description").getValue().toString() + "\n\n" + dataSnapshot.child("users").child(ad.child("userUid").getValue().toString()).child("first_name").getValue().toString() + " "
+                                + dataSnapshot.child("users").child(ad.child("userUid").getValue().toString()).child("second_name").getValue().toString() + " ("
+                                + dataSnapshot.child("users").child(ad.child("userUid").getValue().toString()).child("email").getValue().toString() + ")");
                         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                                 LinearLayout.LayoutParams.MATCH_PARENT,
                                 LinearLayout.LayoutParams.MATCH_PARENT);
@@ -142,7 +157,6 @@ public class MainActivity extends AppCompatActivity
                                 public void onComplete(@NonNull Task task) {
                                     if (task.isSuccessful()) {
                                         currentLocation = (Location) task.getResult();
-                                        Localization = Location.convert(currentLocation.getLatitude(), Location.FORMAT_DEGREES) + " " + Location.convert(currentLocation.getLongitude(), Location.FORMAT_DEGREES);
                                         String lat = Location.convert(currentLocation.getLatitude(), Location.FORMAT_DEGREES).replace(",", ".");
                                         String lng = Location.convert(currentLocation.getLongitude(), Location.FORMAT_DEGREES).replace(",", ".");
                                         double dist = distance(Double.parseDouble(localization[0]), Double.parseDouble(lat), Double.parseDouble(localization[1]), Double.parseDouble(lng), 0, 0);
@@ -192,7 +206,6 @@ public class MainActivity extends AppCompatActivity
                                   double lon2, double el1, double el2) {
 
         final int R = 6371; // Radius of the earth
-
         double latDistance = Math.toRadians(lat2 - lat1);
         double lonDistance = Math.toRadians(lon2 - lon1);
         double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2)
@@ -200,11 +213,8 @@ public class MainActivity extends AppCompatActivity
                 * Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         double distance = R * c * 1000; // convert to meters
-
         double height = el1 - el2;
-
         distance = Math.pow(distance, 2) + Math.pow(height, 2);
-
         return Math.sqrt(distance);
     }
 

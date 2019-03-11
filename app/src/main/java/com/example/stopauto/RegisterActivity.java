@@ -1,8 +1,6 @@
 package com.example.stopauto;
 
 import android.content.DialogInterface;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,11 +8,11 @@ import android.os.Bundle;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -28,16 +26,10 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -69,10 +61,10 @@ public class RegisterActivity extends AppCompatActivity {
     private Spinner day;
     private Spinner month;
     private Spinner year;
-
     private Button button_register;
     private Button button_login;
-    List<User> users = new LinkedList<>();
+    private Button button_terms;
+    private CheckBox check;
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference databaseRef = database.getReference();
@@ -81,7 +73,6 @@ public class RegisterActivity extends AppCompatActivity {
     public void onBackPressed() {
 
     }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,21 +86,6 @@ public class RegisterActivity extends AppCompatActivity {
         }
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, years);
 
-        Spinner spinYear = (Spinner)findViewById(R.id.spin_year);
-        spinYear.setAdapter(adapter);
-
-        Spinner spinner = (Spinner) findViewById(R.id.spin);
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
         email = (EditText) findViewById(R.id.signup_email_input);
         password =(EditText) findViewById(R.id.signup_password_input);
         fName = (EditText) findViewById(R.id.signup_fname);
@@ -118,10 +94,12 @@ public class RegisterActivity extends AppCompatActivity {
         day = (Spinner) findViewById(R.id.spin_day);
         month = (Spinner) findViewById(R.id.spin_month);
         year = (Spinner) findViewById(R.id.spin_year);
-
         button_register = (Button)findViewById(R.id.button_register);
         button_login = (Button)findViewById(R.id.button_login);
+        button_terms = (Button)findViewById(R.id.terms);
+        check = (CheckBox) findViewById(R.id.terms_of_use);
         mAuth = FirebaseAuth.getInstance();
+        year.setAdapter(adapter);
 
         button_register.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -131,6 +109,16 @@ public class RegisterActivity extends AppCompatActivity {
                 }
             }
         });
+
+        button_terms.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (v == button_terms){
+                    ShowTerms();
+                }
+            }
+        });
+
         button_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -141,6 +129,11 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    public void ShowTerms(){
+        Intent myIntent = new Intent(this, TermsActivity.class);
+        this.startActivity(myIntent);
     }
 
     public void RegisterUser(){
@@ -170,6 +163,10 @@ public class RegisterActivity extends AppCompatActivity {
             Toast.makeText(this, "Some fileds are empty", Toast.LENGTH_SHORT).show();
             return;
         }
+        if (!check.isChecked()){
+            Toast.makeText(this, "You must accept the terms and conditions", Toast.LENGTH_SHORT).show();
+            return;
+        }
         final User newUser = new User(Email,Fname,Sname,Sex,sDate);
 
         mAuth.createUserWithEmailAndPassword(Email, Password)
@@ -191,9 +188,7 @@ public class RegisterActivity extends AppCompatActivity {
                                                     UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                                                             .setDisplayName(Fname +" "+ Sname).build();
                                                     currentUser.updateProfile(profileUpdates);
-
                                                     currentUser = null;
-
                                                     AlertDialog alertDialog= new AlertDialog.Builder(RegisterActivity.this).create();
                                                     alertDialog.setTitle("Alert");
                                                     alertDialog.setMessage("Verify your email address.");

@@ -18,6 +18,7 @@ import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -51,10 +52,7 @@ public class FindHitchhikerActivity extends FragmentActivity implements OnMapRea
     private DatabaseReference databaseRef;
     private FirebaseUser currentUser;
     private FirebaseAuth mAuth;
-    private Button button;
     private String email;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,9 +99,7 @@ public class FindHitchhikerActivity extends FragmentActivity implements OnMapRea
                 @Override
                 public void onComplete(@NonNull Task task) {
                     if(task.isSuccessful()){
-
                         databaseRef.addValueEventListener(new ValueEventListener() {
-
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
                                 Iterable<DataSnapshot> journeys = dataSnapshot.child("journeys").getChildren();
@@ -132,20 +128,16 @@ public class FindHitchhikerActivity extends FragmentActivity implements OnMapRea
 
                                             LinearLayout info = new LinearLayout(getApplicationContext());
                                             info.setOrientation(LinearLayout.VERTICAL);
-
                                             final TextView title = new TextView(getApplicationContext());
                                             title.setTextColor(Color.BLACK);
                                             title.setGravity(Gravity.CENTER);
                                             title.setTypeface(null, Typeface.BOLD);
                                             title.setText(marker.getTitle());
-
                                             final TextView snippet = new TextView(getApplicationContext());
                                             snippet.setTextColor(Color.GRAY);
                                             snippet.setText(marker.getSnippet());
-
                                             info.addView(title);
                                             info.addView(snippet);
-
                                             return info;
                                         }
                                     });
@@ -163,6 +155,9 @@ public class FindHitchhikerActivity extends FragmentActivity implements OnMapRea
                         LatLng current = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
                         mMap.addMarker(new MarkerOptions().position(current).title("Your location"));
                         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(current,10.0f));
+                    }else{
+                        if(!mLocationPermissionGranted)
+                            Toast.makeText(FindHitchhikerActivity.this, "Location permission not granted", Toast.LENGTH_SHORT).show();
                     }
                 }
             });
@@ -183,10 +178,10 @@ public class FindHitchhikerActivity extends FragmentActivity implements OnMapRea
                     PackageManager.PERMISSION_GRANTED) {
                 mLocationPermissionGranted = true;
             }else {
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION}, MY_PERMISSIONS_REQUEST_LOCATION);
+                ActivityCompat.requestPermissions(this, permissions, MY_PERMISSIONS_REQUEST_LOCATION);
             }
         }else {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION}, MY_PERMISSIONS_REQUEST_LOCATION);
+            ActivityCompat.requestPermissions(this, permissions, MY_PERMISSIONS_REQUEST_LOCATION);
         }
     }
 
