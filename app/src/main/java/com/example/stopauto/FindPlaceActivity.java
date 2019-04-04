@@ -79,9 +79,11 @@ public class FindPlaceActivity extends FragmentActivity implements OnMapReadyCal
         mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
             public void onInfoWindowClick(Marker marker) {
-                Intent myIntent = new Intent(FindPlaceActivity.this, OpinionsActivity.class);
-                myIntent.putExtra("location", marker.getTitle());
-                FindPlaceActivity.this.startActivity(myIntent);
+                if(!marker.getTitle().equals("Your location")) {
+                    Intent myIntent = new Intent(FindPlaceActivity.this, OpinionsActivity.class);
+                    myIntent.putExtra("location", marker.getTitle());
+                    FindPlaceActivity.this.startActivity(myIntent);
+                }
             }
         });
         getLocationPermission();
@@ -105,7 +107,6 @@ public class FindPlaceActivity extends FragmentActivity implements OnMapReadyCal
                                     LatLng pos = new LatLng(Float.parseFloat(loc[0]),Float.parseFloat(loc[1]));
                                     mMap.addMarker(new MarkerOptions().position(pos).snippet(snippet_string).title(place.child("localization").getValue().toString()).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
                                     mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
-
                                         @Override
                                         public View getInfoWindow(Marker arg0) {
                                             return null;
