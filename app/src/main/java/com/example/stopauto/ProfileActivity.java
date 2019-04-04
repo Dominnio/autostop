@@ -2,13 +2,20 @@ package com.example.stopauto;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -16,6 +23,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
 import java.util.Iterator;
 
 public class ProfileActivity extends AppCompatActivity {
@@ -36,6 +46,8 @@ public class ProfileActivity extends AppCompatActivity {
     private Button update;
     private Button delete;
     private Button edit;
+    private ImageView imageView;
+    FirebaseStorage storage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +68,8 @@ public class ProfileActivity extends AppCompatActivity {
         update = (Button) findViewById(R.id.button_update);
         edit = (Button) findViewById(R.id.button_edit);
         delete = (Button) findViewById(R.id.button_delete_profile);
+        imageView = (ImageView) findViewById(R.id.foto);
+        storage = FirebaseStorage.getInstance();
 
         is_journey.setVisibility(View.INVISIBLE);
         info_journey.setVisibility(View.INVISIBLE);
@@ -103,6 +117,20 @@ public class ProfileActivity extends AppCompatActivity {
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     currentUser = mAuth.getCurrentUser();
                     if (currentUser != null) {
+                        StorageReference pathReference = storage.getReference().child(mAuth.getCurrentUser().getUid());
+                        pathReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                Glide.with(getApplicationContext()).load(uri).into(imageView);
+
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception exception) {
+                                // Handle any errors
+                            }
+                        });
+
                         info_email.setText(dataSnapshot.child("users").child(currentUser.getUid()).child("email").getValue().toString());
                         info_date_of_birth.setText(dataSnapshot.child("users").child(currentUser.getUid()).child("birthDate").getValue().toString());
                         info_sex.setText(dataSnapshot.child("users").child(currentUser.getUid()).child("sex").getValue().toString());

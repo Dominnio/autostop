@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
@@ -12,6 +15,11 @@
         android:textSize="30sp"
         android:text=""
         android:textColor="#000"/>
+
+    <ImageView
+        android:id="@+id/foto"
+        android:layout_width="match_parent"
+        android:layout_height="200dp" />
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
@@ -35,7 +43,6 @@
             android:padding="10dp"
             android:text=""
             android:textColor="#000" />
-
 
     </LinearLayout>
 
@@ -194,3 +201,4 @@
 
 
 </LinearLayout>
+</ScrollView>

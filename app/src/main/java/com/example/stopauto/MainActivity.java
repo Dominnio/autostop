@@ -274,12 +274,14 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_other_users) {
             Intent myIntent = new Intent(this, OtherUsersSearchActivity.class);
             this.startActivity(myIntent);
+        } else if (id == R.id.nav_about) {
+            Intent myIntent = new Intent(this, InfoActivity.class);
+            this.startActivity(myIntent);
         } else if (id == R.id.nav_sign_out) {
             mAuth.signOut();
             Intent myIntent = new Intent(this, LoginActivity.class);
             this.startActivity(myIntent);
         }
-
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

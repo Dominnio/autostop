@@ -18,7 +18,7 @@
             android:title="Other users" />
     </group>
 
-    <item android:title="Communicate">
+    <item android:title="Map">
         <menu>
             <item
                 android:id="@+id/nav_find_place"
@@ -35,5 +35,10 @@
         android:id="@+id/nav_sign_out"
         android:icon="@drawable/menu_sign_out"
         android:title="Sign out" />
+    <item
+        android:id="@+id/nav_about"
+        android:icon="@drawable/menu_about"
+        android:title="About app" />
+
 
 </menu>

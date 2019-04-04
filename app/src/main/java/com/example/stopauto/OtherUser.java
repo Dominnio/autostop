@@ -1,11 +1,18 @@
 package com.example.stopauto;
 
+import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -13,6 +20,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageException;
+import com.google.firebase.storage.StorageReference;
+
 import java.util.Iterator;
 
 public class OtherUser extends AppCompatActivity {
@@ -31,6 +42,8 @@ public class OtherUser extends AppCompatActivity {
     private TextView is_journey;
     private RatingBar info_rate_bar;
     private String uuid;
+    private ImageView imageView;
+    FirebaseStorage storage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +61,8 @@ public class OtherUser extends AppCompatActivity {
         info_journey = (TextView) findViewById(R.id.info_current_journey);
         is_journey = (TextView) findViewById(R.id.info_is_current_journey);
         info_rate_bar = (RatingBar) findViewById(R.id.ratingBar);
+        imageView = (ImageView) findViewById(R.id.foto);
+        storage = FirebaseStorage.getInstance();
 
         is_journey.setVisibility(View.INVISIBLE);
         info_journey.setVisibility(View.INVISIBLE);
@@ -68,6 +83,23 @@ public class OtherUser extends AppCompatActivity {
                         uuid = user.getKey();
                     }
                 }
+
+                storage.getReference().child(uuid).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        Glide.with(getApplicationContext()).load(uri).into(imageView);
+
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                        int errorCode = ((StorageException) exception).getErrorCode();
+                        if (errorCode == StorageException.ERROR_OBJECT_NOT_FOUND) {
+                            Log.d("OtherUser: ", "File not found");
+                        }
+                    }
+                });
+
 
                 info_email.setText(dataSnapshot.child("users").child(uuid).child("email").getValue().toString());
                 info_date_of_birth.setText(dataSnapshot.child("users").child(uuid).child("birthDate").getValue().toString());
